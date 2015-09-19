@@ -1,3 +1,5 @@
+var BigNumber = require('bignumber.js');
+
 module.exports = {
   "name": "json",
   "processSafe":true,
@@ -11,6 +13,13 @@ module.exports = {
       if (type === 'number' && !isNaN(item)) {
         return parseFloat(item);
       } else if (type === '') {
+        if (item[0] >= '0' && item[0] <= '9' && item.length > 15) {
+          try {
+            return (new BigNumber(item)).toString(10);
+          } catch (e) {
+          }
+        }
+
         try {
           return JSON.parse(item);
         } catch (e) {
